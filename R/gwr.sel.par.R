@@ -1,8 +1,6 @@
 #'  Compute the GWR bandwidth
 #'  
-#'  This function computes the optimal bandwidth for a given GWR using 
-#'  a cross-validation (leave-one-out) approach
-#'  It spans the computation across several nodes in a cluster.
+#'  This function computes the optimal bandwidth for a given GWR using a cross-validation (leave-one-out) approach. It spans the computation across several nodes in a cluster.
 #'  
 #'  @param formula Formula of the GWR
 #'  @param data Dataset (either data.frame of SpatialDataframe object)
