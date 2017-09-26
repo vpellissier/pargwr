@@ -2,28 +2,27 @@
 % Please edit documentation in R/gwr.sel.par.R
 \name{gwr.sel.par}
 \alias{gwr.sel.par}
-\title{This function computes the optimal bandwidth for a given GWR using a cross-validation (leave-one-out) approach. It spans the computation across several nodes in a cluster.
- 
- @param formula Formula of the GWR
- @param data Dataset (either data.frame of SpatialDataframe object)
- @param coords A two-columns matrix with the coordinates as X-Y if data is a data.frame
- @param adapt Logical. TRUE if Adaptative bandwith, FALSE if fixed
- @param gweight Character string. Weight kernel. Either "gaussian" or "bisquare"}
+\title{GWR bandwidth selection}
 \usage{
 gwr.sel.par(formula, data = list(), coords, adapt = FALSE,
   gweight = gwr.Gauss, method = "cv", verbose = TRUE, longlat = NULL,
   RMSE = FALSE, weights, tol = 300, show.error.messages = TRUE,
   ncores = 1, beta1 = NULL, beta2 = NULL)
 }
+\arguments{
+\item{formula}{Formula of the GWR}
+
+\item{data}{Dataset (either data.frame of SpatialDataframe object)}
+
+\item{coords}{A two-columns matrix with the coordinates as X-Y if data is a data.frame}
+
+\item{adapt}{Logical. TRUE if Adaptative bandwith, FALSE if fixed}
+
+\item{gweight}{Character string. Weight kernel. Either "gaussian" or "bisquare"}
+}
 \value{
 A bandwidth
 }
 \description{
 This function computes the optimal bandwidth for a given GWR using a cross-validation (leave-one-out) approach. It spans the computation across several nodes in a cluster.
- 
- @param formula Formula of the GWR
- @param data Dataset (either data.frame of SpatialDataframe object)
- @param coords A two-columns matrix with the coordinates as X-Y if data is a data.frame
- @param adapt Logical. TRUE if Adaptative bandwith, FALSE if fixed
- @param gweight Character string. Weight kernel. Either "gaussian" or "bisquare"
 }

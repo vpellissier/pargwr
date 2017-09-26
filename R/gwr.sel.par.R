@@ -1,10 +1,12 @@
-#'  This function computes the optimal bandwidth for a given GWR using a cross-validation (leave-one-out) approach. It spans the computation across several nodes in a cluster.
+#' GWR bandwidth selection
+#' 
+#' This function computes the optimal bandwidth for a given GWR using a cross-validation (leave-one-out) approach. It spans the computation across several nodes in a cluster.
 #'  
-#'  @param formula Formula of the GWR
-#'  @param data Dataset (either data.frame of SpatialDataframe object)
-#'  @param coords A two-columns matrix with the coordinates as X-Y if data is a data.frame
-#'  @param adapt Logical. TRUE if Adaptative bandwith, FALSE if fixed
-#'  @param gweight Character string. Weight kernel. Either "gaussian" or "bisquare"
+#' @param formula Formula of the GWR
+#' @param data Dataset (either data.frame of SpatialDataframe object)
+#' @param coords A two-columns matrix with the coordinates as X-Y if data is a data.frame
+#' @param adapt Logical. TRUE if Adaptative bandwith, FALSE if fixed
+#' @param gweight Character string. Weight kernel. Either "gaussian" or "bisquare"
 #' @return A bandwidth
 #' @export
 gwr.sel.par<-function (formula, data = list(), coords, adapt = FALSE, gweight = gwr.Gauss, 
