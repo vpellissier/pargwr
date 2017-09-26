@@ -2,9 +2,7 @@
 % Please edit documentation in R/gwr.sel.par.R
 \name{gwr.sel.par}
 \alias{gwr.sel.par}
-\title{Compute the GWR bandwidth
- 
- This function computes the optimal bandwidth for a given GWR using a cross-validation (leave-one-out) approach. It spans the computation across several nodes in a cluster.
+\title{This function computes the optimal bandwidth for a given GWR using a cross-validation (leave-one-out) approach. It spans the computation across several nodes in a cluster.
  
  @param formula Formula of the GWR
  @param data Dataset (either data.frame of SpatialDataframe object)
@@ -21,9 +19,7 @@ gwr.sel.par(formula, data = list(), coords, adapt = FALSE,
 A bandwidth
 }
 \description{
-Compute the GWR bandwidth
- 
- This function computes the optimal bandwidth for a given GWR using a cross-validation (leave-one-out) approach. It spans the computation across several nodes in a cluster.
+This function computes the optimal bandwidth for a given GWR using a cross-validation (leave-one-out) approach. It spans the computation across several nodes in a cluster.
  
  @param formula Formula of the GWR
  @param data Dataset (either data.frame of SpatialDataframe object)
