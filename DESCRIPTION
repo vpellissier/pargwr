@@ -1,6 +1,6 @@
 Package: pargwr
 Version: 0.1
 Imports:
-	spgwr
+	spgwr,
 	snowfall
 RoxygenNote: 6.0.1
