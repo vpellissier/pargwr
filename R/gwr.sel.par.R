@@ -59,8 +59,8 @@ gwr.sel.par<-function (formula, data = list(), coords, adapt = FALSE, kernel="ga
     difmin <- spDistsN1(bbox, bbox[2, ], longlat)[1]
     if (any(!is.finite(difmin))) 
         difmin[which(!is.finite(difmin))] <- 0
-    if(is.null(min_dist)) min_dist <- difmin/500  ## difmin = 537447 thus beta 1 = ca. 1km (1074.5m)
-    if (is.null(max_dist)) max_dist <- difmin / 50 ## == ca 10km (10748.9)
+    if(is.null(min_dist)) min_dist <- difmin
+    if (is.null(max_dist)) max_dist <- difmin/1000
     
     sfInit(parallel=TRUE, cpus=ncores)
     sfExport(list=c("coords", "longlat", "x", "y", "weights", "kernel"))
