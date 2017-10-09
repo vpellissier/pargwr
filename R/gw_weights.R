@@ -22,7 +22,10 @@ weight.bisquare<-function (dist, bandwidth)
 #' @export
 weight.gaussian<-function(dist, bandwidth)
 {
-  weights<-exp(-0.5*((dist/h)^2))
+  max.d2 <- bandwidth^2
+  dist2<-dist^2
+  weights<-exp((-0.5)*(dist2/max.d2))
+  return(weights)
 }
 
 #' Box-car weights function
@@ -35,4 +38,5 @@ weight.gaussian<-function(dist, bandwidth)
 weight.boxcar<-function(dist, bandwidth)
 {
   weights<-ifelse(dist<bandwidth, 1, 0)
+  return(weights)
 }
