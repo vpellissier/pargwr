@@ -1,4 +1,4 @@
-# function used to compute the CV score (leave-one-out approach). For each cell i, runs one weigthed GLM per cell, 
+# function used to compute the CV score (leave-one-out approach). For each cell, runs one weigthed GLM per cell, 
 # without including the focal cell, and return observed minus fitted for the focal cell.
 
 cv.compz<-function(i)
