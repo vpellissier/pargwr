@@ -62,9 +62,9 @@ gwr.sel.par<-function (formula, data = list(), coords, adapt = FALSE, kernel="ga
     if(is.null(min_dist)) min_dist <- difmin/1000
     if (is.null(max_dist)) max_dist <- difmin
     
-    sfInit(parallel=TRUE, cpus=ncores)
-    sfExport(list=c("coords", "longlat", "x", "y", "weights", "kernel"))
-    sfLibrary(sp)
+    snowfall::sfInit(parallel=TRUE, cpus=ncores)
+    snowfall::sfExport(list=c("coords", "longlat", "x", "y", "weights", "kernel"))
+    snowfall::sfLibrary(sp)
     
     opt <- optimize(gwr.cv.f.par, lower=min_dist,upper=max_dist, 
                     maximum = FALSE, y = y, x = x, coords = coords, 
@@ -72,7 +72,7 @@ gwr.sel.par<-function (formula, data = list(), coords, adapt = FALSE, kernel="ga
                     RMSE = RMSE, weights = weights, show.error.messages = show.error.messages, 
                     tol = interval_dist*3)
     
-    sfStop()
+    snowfall::sfStop()
     res<-opt$minimum
     res
 }

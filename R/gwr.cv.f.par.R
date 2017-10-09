@@ -9,8 +9,8 @@ gwr.cv.f.par<-function (bandwidth, y, x, coords, kernel, verbose = TRUE, longlat
   cv <- numeric(n)
   options(show.error.messages = show.error.messages)
 
-  sfExport(list=c("bandwidth"))
-  sfSapply(seq(n), cv.compz)->cv
+  snowfall::sfExport(list=c("bandwidth"))
+  snowfall::sfSapply(seq(n), cv.compz)->cv
   
   score <- sum(t(cv) %*% cv) #MSE
   if (RMSE)
