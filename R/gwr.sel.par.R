@@ -59,8 +59,8 @@ gwr.sel.par<-function (formula, data = list(), coords, adapt = FALSE, kernel="ga
     difmin <- spDistsN1(bbox, bbox[2, ], longlat)[1]
     if (any(!is.finite(difmin))) 
         difmin[which(!is.finite(difmin))] <- 0
-    if(is.null(min_dist)) min_dist <- difmin
-    if (is.null(max_dist)) max_dist <- difmin/1000
+    if(is.null(min_dist)) min_dist <- difmin/1000
+    if (is.null(max_dist)) max_dist <- difmin
     
     sfInit(parallel=TRUE, cpus=ncores)
     sfExport(list=c("coords", "longlat", "x", "y", "weights", "kernel"))
