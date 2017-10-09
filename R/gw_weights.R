@@ -32,7 +32,7 @@ weight.gaussian<-function(dist, bandwidth)
 #' @param dist distance vector between observations and fit point
 #' @param bandwidth bandwidth
 #' @export
-weight.gaussian<-function(dist, bandwidth)
+weight.boxcar<-function(dist, bandwidth)
 {
   weights<-ifelse(dist<bandwidth, 1, 0)
 }
