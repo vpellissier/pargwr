@@ -14,9 +14,6 @@ cv.compz<-function(i)
   if(kernel=="bisquare")
     w.i<-weight.bisquare(dxs, bandwidth)
   
-  w.i <- gweight(dxs^2, bandwidth)
-  w.i[i] <- 0
-  w.i <- w.i * weights
   if (any(w.i < 0 | is.na(w.i)))
     stop(paste("Invalid weights for i:", i))
   lm.i <- try(lm.wfit(y = y, x = x, w = w.i))

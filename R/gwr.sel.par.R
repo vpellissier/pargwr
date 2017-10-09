@@ -1,22 +1,24 @@
 #' GWR bandwidth selection
 #' 
-#' This function computes the optimal bandwidth for a given GWR using a cross-validation (leave-one-out) approach. It spans the computation across several nodes in a cluster.
+#' This function computes the optimal bandwidth for a GWR (Geographically Weighted Regression). It spans the computation across several nodes in a cluster.
 #'  
 #' @param formula Formula of the GWR
 #' @param data Dataset (either data.frame of SpatialDataframe object)
 #' @param coords A two-columns matrix with the coordinates as X-Y if data is a data.frame
 #' @param adapt Logical. TRUE if Adaptative bandwith, FALSE if fixed
-#' @param gweight Character string. Weight kernel. Either "gaussian" or "bisquare"
+#' @param kernel Character string. Weight kernel. Either "gaussian" or "bisquare"
+#' @param method Validation method. So far, only the cross-validation approach is implemented 
+#' @param longlat TRUE if coordinates are longitude-latitude in decimal degrees, in which case, distances are measured in kilometers
+#' @param interval_dist Minimum distance between two separate runs of the optimize
+#' @param min_dist Minimum bandwith
+#' @param max_dist Maximum bandwith
 #' @return A bandwidth
 #' @export
 gwr.sel.par<-function (formula, data = list(), coords, adapt = FALSE, kernel="gaussian", 
                        method = "cv", verbose = TRUE, longlat = NULL, RMSE = FALSE, 
-                       weights, tol = 300, show.error.messages = TRUE, 
-                       ncores = 1, beta1=NULL, beta2=NULL) 
+                       weights, interval_dist = 100, show.error.messages = TRUE, 
+                       ncores = 1, min_dist=NULL, max_dist=NULL) 
 {
-    require(snowfall, quietly=TRUE)
-    require(spgwr, quietly=TRUE)
-    
     if (!is.logical(adapt)) 
         stop("adapt must be logical")
     if (is(data, "Spatial")) {
@@ -57,18 +59,18 @@ gwr.sel.par<-function (formula, data = list(), coords, adapt = FALSE, kernel="ga
     difmin <- spDistsN1(bbox, bbox[2, ], longlat)[1]
     if (any(!is.finite(difmin))) 
         difmin[which(!is.finite(difmin))] <- 0
-    if(is.null(beta1)) beta1 <- difmin/500  ## difmin = 537447 thus beta 1 = ca. 1km (1074.5m)
-    if (is.null(beta2)) beta2 <- difmin / 50 ## == ca 10km (10748.9)
+    if(is.null(min_dist)) min_dist <- difmin/500  ## difmin = 537447 thus beta 1 = ca. 1km (1074.5m)
+    if (is.null(max_dist)) max_dist <- difmin / 50 ## == ca 10km (10748.9)
     
     
     
     sfInit(parallel=TRUE, cpus=ncores)
-    sfExport(list=c("coords", "longlat", "x", "y", "weights", "gweight"))
+    sfExport(list=c("coords", "longlat", "x", "y", "weights", "kernel"))
     sfLibrary(sp)
     
-    opt <- optimize(gwr.cv.f.par, lower=beta1,upper=beta2, 
+    opt <- optimize(gwr.cv.f.par, lower=min_dist,upper=max_dist, 
                     maximum = FALSE, y = y, x = x, coords = coords, 
-                    gweight = gweight, verbose = verbose, longlat = longlat, 
+                    kernel = kernel, verbose = verbose, longlat = longlat, 
                     RMSE = RMSE, weights = weights, show.error.messages = show.error.messages, 
                     tol = tol)
     

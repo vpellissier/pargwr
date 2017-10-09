@@ -24,3 +24,15 @@ weight.gaussian<-function(dist, bandwidth)
 {
   weights<-exp(-0.5*((dist/h)^2))
 }
+
+#' Box-car weights function
+#' 
+#' Computes a vector of weights using a boxcar kernel
+#'  
+#' @param dist distance vector between observations and fit point
+#' @param bandwidth bandwidth
+#' @export
+weight.gaussian<-function(dist, bandwidth)
+{
+  weights<-ifelse(dist<bandwidth, 1, 0)
+}
