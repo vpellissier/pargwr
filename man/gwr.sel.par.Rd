@@ -5,9 +5,9 @@
 \title{GWR bandwidth selection}
 \usage{
 gwr.sel.par(formula, data = list(), coords, adapt = FALSE,
-  gweight = gwr.Gauss, method = "cv", verbose = TRUE, longlat = NULL,
-  RMSE = FALSE, weights, tol = 300, show.error.messages = TRUE,
-  ncores = 1, beta1 = NULL, beta2 = NULL)
+  kernel = "gaussian", method = "cv", verbose = TRUE, longlat = NULL,
+  RMSE = FALSE, weights, interval_dist = 100, show.error.messages = TRUE,
+  ncores = 1, min_dist = NULL, max_dist = NULL)
 }
 \arguments{
 \item{formula}{Formula of the GWR}
@@ -18,11 +18,21 @@ gwr.sel.par(formula, data = list(), coords, adapt = FALSE,
 
 \item{adapt}{Logical. TRUE if Adaptative bandwith, FALSE if fixed}
 
-\item{gweight}{Character string. Weight kernel. Either "gaussian" or "bisquare"}
+\item{kernel}{Character string. Weight kernel. Either "gaussian" or "bisquare"}
+
+\item{method}{Validation method. So far, only the cross-validation approach is implemented}
+
+\item{longlat}{TRUE if coordinates are longitude-latitude in decimal degrees, in which case, distances are measured in kilometers}
+
+\item{interval_dist}{Minimum distance between two separate runs of the optimize}
+
+\item{min_dist}{Minimum bandwith}
+
+\item{max_dist}{Maximum bandwith}
 }
 \value{
 A bandwidth
 }
 \description{
-This function computes the optimal bandwidth for a given GWR using a cross-validation (leave-one-out) approach. It spans the computation across several nodes in a cluster.
+This function computes the optimal bandwidth for a GWR (Geographically Weighted Regression). It spans the computation across several nodes in a cluster.
 }

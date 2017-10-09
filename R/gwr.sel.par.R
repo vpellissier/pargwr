@@ -62,8 +62,6 @@ gwr.sel.par<-function (formula, data = list(), coords, adapt = FALSE, kernel="ga
     if(is.null(min_dist)) min_dist <- difmin/500  ## difmin = 537447 thus beta 1 = ca. 1km (1074.5m)
     if (is.null(max_dist)) max_dist <- difmin / 50 ## == ca 10km (10748.9)
     
-    
-    
     sfInit(parallel=TRUE, cpus=ncores)
     sfExport(list=c("coords", "longlat", "x", "y", "weights", "kernel"))
     sfLibrary(sp)
@@ -72,7 +70,7 @@ gwr.sel.par<-function (formula, data = list(), coords, adapt = FALSE, kernel="ga
                     maximum = FALSE, y = y, x = x, coords = coords, 
                     kernel = kernel, verbose = verbose, longlat = longlat, 
                     RMSE = RMSE, weights = weights, show.error.messages = show.error.messages, 
-                    tol = tol)
+                    tol = interval_dist*3)
     
     sfStop()
     res<-opt$minimum
