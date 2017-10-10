@@ -7,7 +7,7 @@
 gwr.sel.par(formula, data = list(), coords, adapt = FALSE,
   kernel = "gaussian", method = "cv", verbose = TRUE, longlat = NULL,
   RMSE = FALSE, weights, interval_dist = 100, show.error.messages = TRUE,
-  ncores = 1, min_dist = NULL, max_dist = NULL)
+  ncores = NULL, min_dist = NULL, max_dist = NULL)
 }
 \arguments{
 \item{formula}{Formula of the GWR}

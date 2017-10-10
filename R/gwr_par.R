@@ -1,3 +1,18 @@
+#' GWR computation
+#' 
+#' This function computes a GWR (Geographically Weighted Regression). It spans the computation across several nodes in a cluster.
+#'  
+#' @param formula Formula of the GWR
+#' @param data Dataset (either data.frame of SpatialDataframe object)
+#' @param coords A two-columns matrix with the coordinates as X-Y if data is a data.frame
+#' @param adapt Logical. TRUE if Adaptative bandwith, FALSE if fixed
+#' @param kernel Character string. Weight kernel. Either "gaussian", "bisquare" or "boxcar"
+#' @param longlat TRUE if coordinates are longitude-latitude in decimal degrees, in which case, distances are measured in kilometers
+#' @param bandwith Minimum distance between two separate runs of the optimize
+#' @param se.fit Logical. TRUE if standard errors of the fit should be assesse. Not implemente yet
+#' @param ncores Number of cores in which the computation should be spanned
+#' @return A fitted GWR
+#' @export
 gwr_par<-function(formula, data, coords, bandwidth, weights=NULL,
 	kernel="gaussian", longlat=NULL, se.fit=FALSE, adapt=F, ncores=NULL)
 {

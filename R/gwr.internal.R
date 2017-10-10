@@ -1,3 +1,5 @@
+# Internal function. Computes the local LM for a given point.
+# DO NOT RUN OUTSIDE gwr_par()!
 gwr.internal<-function(x, y, cell, coords, bandwidth, weights=NULL,
     kernel, longlat, adapt, se.fit)
 {
