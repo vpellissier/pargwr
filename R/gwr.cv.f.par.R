@@ -9,9 +9,15 @@ gwr.cv.f.par<-function (bandwidth, y, x, coords, kernel, verbose = TRUE, longlat
   cv <- numeric(n)
   options(show.error.messages = show.error.messages)
 
+  if(is.null(ncores)){
   snowfall::sfExport(list=c("bandwidth"))
-  snowfall::sfSapply(seq(n), cv.compz)->cv
-  
+  cv<-snowfall::sfSapply(seq(n), cv.compz)
+  }
+
+  if(!is.null(ncores) && ncores>1){
+    cv<-sapply(seq(n), cv.compz)
+  }
+
   score <- sum(t(cv) %*% cv) #MSE
   if (RMSE)
     score <- sqrt(score/n) #RMSE
