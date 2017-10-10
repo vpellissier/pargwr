@@ -9,12 +9,12 @@ gwr.cv.f.par<-function (bandwidth, y, x, coords, kernel, verbose = TRUE, longlat
   cv <- numeric(n)
   options(show.error.messages = show.error.messages)
 
-  if(is.null(ncores)){
+  if(!is.null(ncores) && ncores>1){
   snowfall::sfExport(list=c("bandwidth"))
   cv<-snowfall::sfSapply(seq(n), cv.compz)
   }
 
-  if(!is.null(ncores) && ncores>1){
+  if(is.null(ncores)){
     cv<-sapply(seq(n), cv.compz)
   }
 
