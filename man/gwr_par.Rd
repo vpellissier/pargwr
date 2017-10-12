@@ -19,7 +19,7 @@ gwr_par(formula, data, coords, bandwidth, weights = NULL,
 
 \item{longlat}{TRUE if coordinates are longitude-latitude in decimal degrees, in which case, distances are measured in kilometers}
 
-\item{se.fit}{Logical. TRUE if standard errors of the fit should be assesse. Not implemente yet}
+\item{se.fit}{Logical. TRUE if standard errors of the fit should be assesse.}
 
 \item{diagnostic}{Logical. If TRUE, the following metrics are displayed: AIC, AICc, RSS, Effective numbers of parameters and of degrees of freedom.}
 
@@ -27,7 +27,7 @@ gwr_par(formula, data, coords, bandwidth, weights = NULL,
 
 \item{ncores}{Number of cores in which the computation should be spanned}
 
-\item{bandwith}{Minimum distance between two separate runs of the optimize}
+\item{bandwith}{Bandwidth. Can be computed with gwr.sel.par()}
 }
 \value{
 A fitted GWR

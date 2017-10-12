@@ -8,8 +8,8 @@
 #' @param adapt Logical. TRUE if Adaptative bandwith, FALSE if fixed
 #' @param kernel Character string. Weight kernel. Either "gaussian", "bisquare" or "boxcar"
 #' @param longlat TRUE if coordinates are longitude-latitude in decimal degrees, in which case, distances are measured in kilometers
-#' @param bandwith Minimum distance between two separate runs of the optimize
-#' @param se.fit Logical. TRUE if standard errors of the fit should be assesse. Not implemente yet
+#' @param bandwith Bandwidth. Can be computed with gwr.sel.par()
+#' @param se.fit Logical. TRUE if standard errors of the fit should be assesse.
 #' @param ncores Number of cores in which the computation should be spanned
 #' @param diagnostic Logical. If TRUE, the following metrics are displayed: AIC, AICc, RSS, Effective numbers of parameters and of degrees of freedom.
 #' @return A fitted GWR
