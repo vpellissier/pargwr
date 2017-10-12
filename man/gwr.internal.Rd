@@ -7,6 +7,12 @@
 gwr.internal(x, y, yhat, cell, coords, bandwidth, weights = NULL, kernel,
   longlat, adapt, se.fit)
 }
+\arguments{
+\item{x}{x values}
+}
+\value{
+parameters of a local LM
+}
 \description{
-Internal function. Computes the local LM for a given point.
+For internal use only
 }
