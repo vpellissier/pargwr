@@ -2,7 +2,7 @@
 # Also computes the hatmatrix (the line of the hatmatrix corresponding to the point)
 # DO NOT RUN OUTSIDE gwr_par()!
 gwr.internal<-function(x, y, cell, coords, bandwidth, weights=NULL,
-    kernel, longlat, adapt, se.fit)
+    kernel, longlat, adapt, se.fit, diagnostic)
 {
     i<-cell
     dists.local<-spDistsN1(coords, coords[i,], longlat)
