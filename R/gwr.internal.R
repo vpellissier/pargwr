@@ -1,5 +1,4 @@
-#' Internal function. Computes the local LM for a given point.
-#' @export
+# Internal function. Computes the local LM for a given point.
 gwr.internal<-function(x, y, cell, coords, bandwidth, weights=NULL,
     kernel, longlat, adapt, se.fit, diagnostic)
 {
