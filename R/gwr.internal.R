@@ -40,10 +40,9 @@ gwr.internal<-function(x, y, cell, coords, bandwidth, weights=NULL,
             warning("Local LM not full rank")
         invZ<-chol2inv(lm.i$qr$qr[1:lm.i$rank, 1:lm.i$rank])
         lhat.i<-t(x[i,]) %*% invZ %*% t(x) %*% diag(weights.i)
-
     }
 
-    if(se.fit==TRUE){
+    if(diagnostic==TRUE || se.fit==TRUE){
         coeffs.se.i<-diag(invZ)
         df.i<-c(sum.weights, coeffs.i, coeffs.se.i, pred.i, gwr.e.i)
         names(df.i)<-c("sum.weights", names(coeffs.i), 

@@ -23,6 +23,8 @@ gwr_par<-function(formula, data, coords, bandwidth, weights=NULL,
 	if (missing(bandwidth))
 		stop("Please provide a bandwidth. Can be computed using gwr.sel.par()")
 
+    projection<-NULL
+
 	if(is(data, "Spatial")){
 		if(!missing(coords))
 			warning("Coordinates are taken directly from data")
@@ -124,9 +126,16 @@ gwr_par<-function(formula, data, coords, bandwidth, weights=NULL,
     													df[,"yhat"], longlat, adapt,
     													weights, kernel, bandwidth))
     df<-cbind(df, local.R2)
-    sdf<-SpatialPointsDataFrame(coords=coords, data=as.data.frame(df),
+    
+    if(!is.null(projection))
+        sdf<-SpatialPointsDataFrame(coords=coords, data=as.data.frame(df),
     		proj4string=CRS(projection))
+    else
+        sdf<-SpatialPointsDataFrame(coords=coords, data=as.data.frame(df))      
 
-   	return(list(sdf=sdf, global.lm=lm.global, bandwidth=bandwidth,
-    	kernel=kernel, diagnostic.metrics=diagnostics))
+   	results.list<-list(sdf=sdf, global.lm=lm.global, bandwidth=bandwidth,
+    	kernel=kernel, diagnostic.metrics=diagnostics)
+    class(results.list)<-"pargwr"
+
+    invisible(results.list)
 }
