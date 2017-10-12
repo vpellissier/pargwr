@@ -111,10 +111,10 @@ gwr_par<-function(formula, data, coords, bandwidth, weights=NULL,
     #odelta2<-sum(diag(crossprod2)^2)
     #delta2<-sum(diag(crossprod2 %*% crossprod2))
     sigma2.b<-rss/n.sample
-    AIC<-2 * n.sample * log(sqrt(sigma2.b)) + n.sample * 
-    	log(2 * pi) + (n.sample * ((n.sample * diaghatmat)/(n.sample - 2 - diaghatmat)))
     AICc<-2 * n.sample * log(sqrt(sigma2.b)) + n.sample * 
-    	log(2 * pi) + n.sample + diaghatmat
+    	log(2 * pi) + (n.sample * ((n.sample * diaghatmat)/(n.sample - 2 - diaghatmat)))
+    AIC<-2 * n.sample * log(sqrt(sigma2.b)) + n.sample * log(2 * 
+        pi) + n.sample + diaghatmat
 
     diagnostics<-list(AIC=AIC, AICc=AICc, RSS=rss, EDF=effective.df)
     }
@@ -136,6 +136,5 @@ gwr_par<-function(formula, data, coords, bandwidth, weights=NULL,
    	results.list<-list(sdf=sdf, global.lm=lm.global, bandwidth=bandwidth,
     	kernel=kernel, diagnostic.metrics=diagnostics)
     class(results.list)<-"pargwr"
-
     invisible(results.list)
 }
