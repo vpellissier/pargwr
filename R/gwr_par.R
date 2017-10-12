@@ -73,7 +73,7 @@ gwr_par<-function(formula, data, coords, bandwidth, weights=NULL,
     # Running linear models sequentially if ncores==NULL
     if(is.null(ncores))
         param.local.lm<-lapply(seq(n.sample), 
-        	function(cell) gwr.internal(x=y, y=y, cell=cell, coords=coords, 
+        	function(cell) gwr.internal(x=x, y=y, cell=cell, coords=coords, 
     			bandwidth=bandwidth, weights=weights,kernel=kernel, 
     			longlat=longlat, adapt=adapt, se.fit=se.fit, diagnostic=diagnostic))
 
@@ -84,7 +84,7 @@ gwr_par<-function(formula, data, coords, bandwidth, weights=NULL,
     		"weights", "kernel", "longlat", "adapt", "se.fit"))
     	snowfall::sfLibrary(sp)
     	param.local.lm<-sfLapply(seq(n.sample), 
-    		function(cell) gwr.internal(x=y, y=y, cell=cell, coords=coords, 
+    		function(cell) gwr.internal(x=x, y=y, cell=cell, coords=coords, 
     			bandwidth=bandwidth, weights=weights,kernel=kernel, 
     			longlat=longlat, adapt=adapt, se.fit=se.fit, diagnostic=diagnostic))
     	snowfall::sfStop()
