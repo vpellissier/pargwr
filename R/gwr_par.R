@@ -101,18 +101,18 @@ gwr_par<-function(formula, data, coords, bandwidth, weights=NULL,
     diaghatmat<-sum(diag(hatmat))
     crossprod1<-t(hatmat) %*% hatmat
     diagcrossprod<-sum(diag(crossprod1))
-    effective.df<-n.vars - 2 * diaghatmat + diagcrossprod
-    crossprod2<-t(diag(n.vars) - hatmat) %*% (diag(n.vars) - hatmat)
+    effective.df<-n.sample - 2 * diaghatmat + diagcrossprod
+    crossprod2<-t(diag(n.sample) - hatmat) %*% (diag(n.sample) - hatmat)
     rss<-c(t(y) %*% crossprod2 %*% y)
     #delta1<-sum(diag(crossprod2))
     #sigma2<-rss/delta1
     #odelta2<-sum(diag(crossprod2)^2)
     #delta2<-sum(diag(crossprod2 %*% crossprod2))
-    sigma2.b<-rss/n.vars
-    AIC<-2 * n.vars * log(sqrt(sigma2.b)) + n.vars * 
-    	log(2 * pi) + (n.vars * ((n.sample * diaghatmat)/(n.vars - 2 - diaghatmat)))
-    AICc<-2 * n.vars * log(sqrt(sigma2.b)) + n.vars * 
-    	log(2 * pi) + n.vars + diaghatmat
+    sigma2.b<-rss/n.sample
+    AIC<-2 * n.sample * log(sqrt(sigma2.b)) + n.sample * 
+    	log(2 * pi) + (n.sample * ((n.sample * diaghatmat)/(n.sample - 2 - diaghatmat)))
+    AICc<-2 * n.sample * log(sqrt(sigma2.b)) + n.sample * 
+    	log(2 * pi) + n.sample + diaghatmat
 
     diagnostics<-list(AIC=AIC, AICc=AICc, RSS=rss, EDF=effective.df)
     }
