@@ -53,11 +53,15 @@ gwr.internal<-function(x, y, cell, coords, bandwidth, weights=NULL,
         df.i<-c(sum.weights, coeffs.i, coeffs.se.i, pred.i, gwr.e.i)
         names(df.i)<-c("sum.weights", names(coeffs.i), 
                     paste0("SE_", names(coeffs.i)), "yhat", "gwr.error")
+
+            return(list(df.i=df.i, lhat.i=lhat.i))
     }
     else{
         df.i<-c(sum.weights, coeffs.i, pred.i, gwr.e.i)
         names(df.i)<-c("sum.weights", names(coeffs.i), "yhat", "gwr.error")
+
+            return(list(df.i=df.i))
     }
     
-    return(list(df.i=df.i, lhat.i=lhat.i))
+
 }
