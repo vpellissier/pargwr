@@ -90,11 +90,11 @@ gwr_par<-function(formula, data, coords, bandwidth, weights=NULL,
     	snowfall::sfStop()
     }
 
-    list.df<-lapply(param.local.lm, function(x) param.local.lm[["df.i"]])
-    df<-do.call(rbind, param.local.lm)
+    list.df<-lapply(param.local.lm, function(j) j[["df.i"]])
+    df<-do.call(rbind, list.df)
 
     if(diagnostic==TRUE){
-        list.hatmat<-lapply(param.local.lm, function(x) param.local.lm[["lhat.i"]])
+        list.hatmat<-lapply(param.local.lm, function(j) j[["lhat.i"]])
         hatmat<-do.call(rbind, list.hatmat)
     
     # This bloc computes diagnostic metrics, based on the hatmatrix
@@ -117,13 +117,16 @@ gwr_par<-function(formula, data, coords, bandwidth, weights=NULL,
     diagnostics<-list(AIC=AIC, AICc=AICc, RSS=rss, EDF=effective.df)
     }
 
+    else
+        diagnostics<-NULL
+
     local.R2<-sapply(seq(n.sample), function(cell) local_R2(y, cell, coords, 
     													df[,"yhat"], longlat, adapt,
     													weights, kernel, bandwidth))
     df<-cbind(df, local.R2)
-    sdf<-SpatialPointsDataFrame(coords=coords, data=df,
+    sdf<-SpatialPointsDataFrame(coords=coords, data=as.data.frame(df),
     		proj4string=CRS(projection))
 
    	return(list(sdf=sdf, global.lm=lm.global, bandwidth=bandwidth,
-    	kernel=kernel), diagnostics=diagnostics)
+    	kernel=kernel, diagnostic.metrics=diagnostics))
 }

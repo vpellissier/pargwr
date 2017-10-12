@@ -1,10 +1,5 @@
-#' Internal function. Computes the local LM for a given point.
-#' 
-#' For internal use only
-#' 
-#' @param x x values
-#' @return parameters of a local LM
-#' @export
+# Internal function. Computes the local LM for a given point.
+# For internal use only
 gwr.internal<-function(x, y, cell, coords, bandwidth, weights=NULL,
     kernel, longlat, adapt, se.fit, diagnostic)
 {
@@ -53,15 +48,12 @@ gwr.internal<-function(x, y, cell, coords, bandwidth, weights=NULL,
         df.i<-c(sum.weights, coeffs.i, coeffs.se.i, pred.i, gwr.e.i)
         names(df.i)<-c("sum.weights", names(coeffs.i), 
                     paste0("SE_", names(coeffs.i)), "yhat", "gwr.error")
-
-            return(list(df.i=df.i, lhat.i=lhat.i))
     }
     else{
         df.i<-c(sum.weights, coeffs.i, pred.i, gwr.e.i)
         names(df.i)<-c("sum.weights", names(coeffs.i), "yhat", "gwr.error")
-
-            return(list(df.i=df.i))
+        lhat.i<-NA
     }
     
-
+    return(list(df.i=df.i, lhat.i=lhat.i))
 }
