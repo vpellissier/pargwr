@@ -72,20 +72,21 @@ gwr_par<-function(formula, data, coords, bandwidth, weights=NULL,
 
     # Running linear models sequentially if ncores==NULL
     if(is.null(ncores))
-        param.local.lm<-lapply(seq(n.sample), function(cell) gwr.internal(x, y, cell,
-    														coords, bandwidth, weights, 
-    														kernel, longlat, adapt, se.fit, 
-    														diagnostic))
+        param.local.lm<-lapply(seq(n.sample), 
+        	function(cell) gwr.internal(x=y, y=y, cell=cell, coords=coords, 
+    			bandwidth=bandwidht, weights=weights,kernel=kernel, 
+    			longlat=longlat, adapt=adapt, se.fit=se.fit, diagnostic=diagnostic))
+    
     # Running linear models sequentially if ncores>2
     if(!is.null(ncores) && ncores>1){
     	snowfall::sfInit(cpus=ncores, parallel=TRUE)
     	snowfall::sfExport(list=c("x", "y", "coords", "bandwidth",
     		"weights", "kernel", "longlat", "adapt", "se.fit"))
     	snowfall::sfLibrary(sp)
-    	param.local.lm<-sfLapply(seq(n.sample), function(cell) gwr.internal(x, y, cell,
-    														coords, bandwidth, weights, 
-    														kernel, longlat, adapt, se.fit, 
-    														diagnostic))
+    	param.local.lm<-sfLapply(seq(n.sample), 
+    		function(cell) gwr.internal(x=y, y=y, cell=cell, coords=coords, 
+    			bandwidth=bandwidht, weights=weights,kernel=kernel, 
+    			longlat=longlat, adapt=adapt, se.fit=se.fit, diagnostic=diagnostic))
     	snowfall::sfStop()
     }
 
@@ -115,7 +116,7 @@ gwr_par<-function(formula, data, coords, bandwidth, weights=NULL,
 
     diagnostics<-list(AIC=AIC, AICc=AICc, RSS=rss, EDF=effective.df)
     }
-    
+
     local.R2<-sapply(seq(n.sample), function(cell) local_R2(y, cell, coords, 
     													df[,"yhat"], longlat, adapt,
     													weights, kernel, bandwidth))
