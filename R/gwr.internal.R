@@ -5,6 +5,7 @@ gwr.internal<-function(x, y, cell, coords, bandwidth, weights=NULL,
     kernel, longlat, adapt, se.fit, diagnostic)
 {
     i<-cell
+    coords<-as.matrix(coords)
     dists.local<-spDistsN1(coords, coords[i,], longlat)
     if(any(!is.finite(dists.local)))
         dists.local[which(!is.finite(dists.local))] <- 0
