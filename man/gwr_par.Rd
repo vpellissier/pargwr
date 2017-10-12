@@ -5,8 +5,8 @@
 \title{GWR computation}
 \usage{
 gwr_par(formula, data, coords, bandwidth, weights = NULL,
-  kernel = "gaussian", longlat = NULL, se.fit = FALSE, adapt = F,
-  ncores = NULL)
+  kernel = "gaussian", longlat = NULL, se.fit = FALSE,
+  diagnostic = FALSE, adapt = F, ncores = NULL)
 }
 \arguments{
 \item{formula}{Formula of the GWR}
@@ -20,6 +20,8 @@ gwr_par(formula, data, coords, bandwidth, weights = NULL,
 \item{longlat}{TRUE if coordinates are longitude-latitude in decimal degrees, in which case, distances are measured in kilometers}
 
 \item{se.fit}{Logical. TRUE if standard errors of the fit should be assesse. Not implemente yet}
+
+\item{diagnostic}{Logical. If TRUE, the following metrics are displayed: AIC, AICc, RSS, Effective numbers of parameters and of degrees of freedom.}
 
 \item{adapt}{Logical. TRUE if Adaptative bandwith, FALSE if fixed}
 

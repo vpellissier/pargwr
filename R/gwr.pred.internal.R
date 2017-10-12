@@ -1,7 +1,6 @@
 # Internal function. Computes the local LM for a given point.
-# Also computes the hatmatrix (the line of the hatmatrix corresponding to the point)
 # DO NOT RUN OUTSIDE gwr_par()!
-gwr.internal<-function(x, y, cell, coords, bandwidth, weights=NULL,
+gwr.internal<-function(x, y, yhat, cell, coords, bandwidth, weights=NULL,
     kernel, longlat, adapt, se.fit)
 {
     i<-cell
@@ -36,20 +35,11 @@ gwr.internal<-function(x, y, cell, coords, bandwidth, weights=NULL,
     pred.i<-sum(x[i,] * coeffs.i)
     gwr.e.i<-lm.i$residuals[i]
 
-    if(diagnostic==TRUE){
-        if(rank(ml.i)!=ncol(x))
-            warning("Local LM not full rank")
-        invZ<-chol2inv(lm.i$qr$qr[1:rank(lm.i), 1:rank(lm.i)])
-        lhat.i<-t(x[i,]) %*% invZ %*% t(x) %*% diag(weights.i)
-
-    }
-
     if(se.fit==TRUE) 
-        coeffs.se.i<-diag(invZ)
+        warnings("se.fit not implemented yet!")
 
-    df.i<-c(sum.weights, coeffs.i, coeffs.se.i, pred.i, gwr.e.i)
-    names(df.i)<-c("sum.weights", names(coeffs.i), 
-                    paste0("SE_", names(coeffs.i)), "yhat", "gwr.error")
+    df.i<-c(sum.weights, coeffs.i, pred.i, gwr.e.i)
+    names(df.i)<-c("sum.weights", names(coeffs.i), "yhat", "gwr.error")
     
-    return(list(df.i=df.i, lhat.i=lhat.i))
+    return(df.i)
 }
