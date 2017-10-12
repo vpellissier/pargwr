@@ -6,7 +6,7 @@
 #' @return parameters of a local LM
 #' @export
 gwr.internal<-function(x, y, cell, coords, bandwidth, weights=NULL,
-    kernel, longlat, adapt, se.fit, diagnostic=FALSE)
+    kernel, longlat, adapt, se.fit, diagnostic)
 {
     i<-cell
     dists.local<-spDistsN1(coords, coords[i,], longlat)

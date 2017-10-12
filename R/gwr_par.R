@@ -125,5 +125,5 @@ gwr_par<-function(formula, data, coords, bandwidth, weights=NULL,
     		proj4string=CRS(projection))
 
    	return(list(sdf=sdf, global.lm=lm.global, bandwidth=bandwidth,
-    	kernel=kernel), diagnostic=diagnostics)
+    	kernel=kernel), diagnostics=diagnostics)
 }
