@@ -1,6 +1,5 @@
-# Internal function. Computes the local LM for a given point.
-# Also computes the hatmatrix (the line of the hatmatrix corresponding to the point)
-# DO NOT RUN OUTSIDE gwr_par()!
+#' Internal function. Computes the local LM for a given point.
+#' @export
 gwr.internal<-function(x, y, cell, coords, bandwidth, weights=NULL,
     kernel, longlat, adapt, se.fit, diagnostic)
 {
