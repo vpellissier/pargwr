@@ -32,7 +32,7 @@ gwr_par<-function(formula, data, coords, bandwidth, weights=NULL,
 		projection<-proj4string(data)
 
 		if(is.null(longlat) || !is.logical(longlat)){
-			if(!is.projected(data))
+			if(!is.na(projected(data) && !is.projected(data)))
 				longlat<-TRUE
 			else
 				longlat<-FALSE			
@@ -112,7 +112,7 @@ gwr_par<-function(formula, data, coords, bandwidth, weights=NULL,
     #delta2<-sum(diag(crossprod2 %*% crossprod2))
     sigma2.b<-rss/n.sample
     AICc<-2 * n.sample * log(sqrt(sigma2.b)) + n.sample * 
-    	log(2 * pi) + (n.sample * ((n.sample * diaghatmat)/(n.sample - 2 - diaghatmat)))
+    	log(2 * pi) + (n.sample * ((n.sample + diaghatmat)/(n.sample - 2 - diaghatmat)))
     AIC<-2 * n.sample * log(sqrt(sigma2.b)) + n.sample * log(2 * 
         pi) + n.sample + diaghatmat
 
