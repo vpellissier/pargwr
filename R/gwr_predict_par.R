@@ -1,4 +1,18 @@
-gwr_predict_par<-function(fittedGWR=NULL, newdata, newcoords, longlat=NULL, se.fit=FALSE, ncores=NULL)
+#' GWR prediction
+#' 
+#' This function predicts values of Y in location were it was not observed
+#'   
+#' @param fittedGWR A GWR object fitted with gwr_par()
+#' @param newdata A new dataset used to predict the value (either data.frame of Spatial*Dataframe object)
+#' @param newcoords A two-columns matrix with the coordinates of the new dataset if newdata is a dataframe Ignored otherwise
+#' @param longlat TRUE if coordinates are longitude-latitude in decimal degrees, in which case, distances are measured in kilometers
+#' @param bandwith Bandwidth. Can be computed with gwr.sel.par()
+#' @param se.fit Logical. TRUE if standard errors of the fit should be assessed.
+#' @param ncores Number of cores in which the computation should be spanned
+#' @return A SDF containing predicted values
+#' @export
+gwr_predict_par<-function(fittedGWR=NULL, newdata, newcoords, 
+	longlat=NULL, se.fit=FALSE, ncores=NULL)
 {
 	adapt<-FALSE # to be implemented later
 	if(is.null(fittedGWR))

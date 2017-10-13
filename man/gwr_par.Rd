@@ -11,7 +11,7 @@ gwr_par(formula, data, coords, bandwidth, weights = NULL,
 \arguments{
 \item{formula}{Formula of the GWR}
 
-\item{data}{Dataset (either data.frame of SpatialDataframe object)}
+\item{data}{Dataset (either data.frame of Spatial*Dataframe object)}
 
 \item{coords}{A two-columns matrix with the coordinates as X-Y if data is a data.frame}
 
@@ -19,7 +19,7 @@ gwr_par(formula, data, coords, bandwidth, weights = NULL,
 
 \item{longlat}{TRUE if coordinates are longitude-latitude in decimal degrees, in which case, distances are measured in kilometers}
 
-\item{se.fit}{Logical. TRUE if standard errors of the fit should be assesse.}
+\item{se.fit}{Logical. TRUE if standard errors of the fit should be assessed.}
 
 \item{diagnostic}{Logical. If TRUE, the following metrics are displayed: AIC, AICc, RSS, Effective numbers of parameters and of degrees of freedom.}
 

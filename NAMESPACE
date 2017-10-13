@@ -2,6 +2,7 @@
 
 export(gwr.sel.par)
 export(gwr_par)
+export(gwr_predict_par)
 export(weight.bisquare)
 export(weight.boxcar)
 export(weight.gaussian)
