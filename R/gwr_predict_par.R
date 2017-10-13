@@ -25,7 +25,7 @@ gwr_predict_par<-function(fittedGWR=NULL, newdata, newcoords,
 	x<-model.matrix(fittedGWR$global.lm)
 	x.vars<-all.vars(formula(fittedGWR$call))[-1]
 	y<-model.response(model.frame(fittedGWR$global.lm))
-	weights<-model.extract(model.frame(gwr.meuseV$global.lm), "weights")
+	weights<-model.extract(model.frame(fittedGWR$global.lm), "weights")
 
 	coords<-coordinates(fittedGWR$sdf)
 	bandwidth<-fittedGWR$bandwidth
