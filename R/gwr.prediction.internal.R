@@ -49,8 +49,8 @@ gwr.pred.internal<-function(x, y, coords, cell, newcoords,
     #                paste0("SE_", x.vars), "prediction", "local.R2")
     }
     else{
-        df.i<-c(sum.weights, coeffs.i, pred.i, gwr.e.i, localR2.i)
-        names(df.i)<-c("sum.weights", x.vars, "prediction", "gwr.error", "local.R2")
+        df.i<-c(sum.weights, coeffs.i, pred.i, localR2.i)
+        names(df.i)<-c("sum.weights", x.vars, "prediction", "local.R2")
         lhat.i<-NA
     }
     
