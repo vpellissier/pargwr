@@ -13,6 +13,9 @@
 #' @param ncores Number of cores in which the computation should be spanned
 #' @param diagnostic Logical. If TRUE, the following metrics are displayed: AIC, AICc, RSS, Effective numbers of parameters and of degrees of freedom.
 #' @return A fitted GWR
+#' @import snowfall
+#' @importFrom snow setDefaultClusterOptions
+#' @import sp
 #' @export
 gwr_par<-function(formula, data, coords, bandwidth, weights=NULL,
 	kernel="gaussian", longlat=NULL, se.fit=FALSE, diagnostic=FALSE, adapt=F, ncores=NULL)
