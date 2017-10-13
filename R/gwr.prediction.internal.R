@@ -1,12 +1,12 @@
 # Internal function. Computes the predicted values.
 # For internal use only
-gwr.predict.internal<-function(x, y, cell, fitpoints, coords, bandwidth, weights=NULL,
+gwr.pred.internal<-function(x, y, coords, cell, newcoords, 
+    newdata, bandwidth, weights, yhat,
     kernel, longlat, adapt, se.fit)
 {
+    x.vars<-colnames(newdata)
     i<-cell
-    nfit<-nrow(fitpoints)
-    
-    dists.local<-spDistsN1(coords, coords[i,], longlat)
+    dists.local<-spDistsN1(coords, newcoords[i,], longlat)
     if(any(!is.finite(dists.local)))
         dists.local[which(!is.finite(dists.local))] <- 0
 
@@ -34,18 +34,23 @@ gwr.predict.internal<-function(x, y, cell, fitpoints, coords, bandwidth, weights
     lm.i<-lm.wfit(x, y, w=weights.i)
 
     coeffs.i<-lm.i$coefficients
-    pred.i<-sum(x[i,] * coeffs.i)
-    gwr.e.i<-lm.i$residuals[i]
+    pred.i<-sum(newdata[i,] * coeffs.i)
+    #gwr.e.i<-lm.i$residuals[i]
+
+    RSS<-sum(weights.i * (y - yhat)^2)
+    yss<-sum(weights.i * (y - weighted.mean(y, weights.i))^2)
+    localR2.i<-1 - (RSS/yss)
 
     if(se.fit==TRUE){
-        coeffs.se.i<-diag(invZ)
-        df.i<-c(sum.weights, coeffs.i, coeffs.se.i, pred.i, gwr.e.i)
-        names(df.i)<-c("sum.weights", names(coeffs.i), 
-                    paste0("SE_", names(coeffs.i)), "yhat", "gwr.error")
+        stop("SE computation for the prediction are not implemented yet!")
+    #    coeffs.se.i<-diag(invZ)
+    #    df.i<-c(sum.weights, coeffs.i, coeffs.se.i, pred.i, gwr.e.i)
+    #    names(df.i)<-c("sum.weights", x.vars, 
+    #                paste0("SE_", x.vars), "prediction", "local.R2")
     }
     else{
-        df.i<-c(sum.weights, coeffs.i, pred.i, gwr.e.i)
-        names(df.i)<-c("sum.weights", names(coeffs.i), "yhat", "gwr.error")
+        df.i<-c(sum.weights, coeffs.i, pred.i, gwr.e.i, localR2.i)
+        names(df.i)<-c("sum.weights", x.vars, "prediction", "gwr.error", "local.R2")
         lhat.i<-NA
     }
     
