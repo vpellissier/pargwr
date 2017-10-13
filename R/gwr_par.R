@@ -124,7 +124,7 @@ gwr_par<-function(formula, data, coords, bandwidth, weights=NULL,
     else
         diagnostics<-NULL
 
-    local.R2<-sapply(seq(n.sample), function(cell) local_R2(y, cell, coords, 
+    local.R2<-sapply(seq(n.sample), function(cell) local.R2(y, cell, coords, 
     													df[,"yhat"], longlat, adapt,
     													weights, kernel, bandwidth))
     df<-cbind(df, local.R2)

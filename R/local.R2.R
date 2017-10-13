@@ -1,6 +1,6 @@
 # Internal function. Computes the local R² for a given point.
 # DO NOT RUN OUTSIDE gwr_par()!
-local_R2<-function(y, cell, coords, yhat, longlat, adapt, 
+local.R2<-function(y, cell, coords, yhat, longlat, adapt, 
 	weights, kernel, bandwidth)
 {
 	i<-cell

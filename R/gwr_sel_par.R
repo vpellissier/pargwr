@@ -14,7 +14,7 @@
 #' @param max_dist Maximum bandwith
 #' @return A bandwidth
 #' @export
-gwr.sel.par<-function (formula, data = list(), coords, adapt = FALSE, kernel="gaussian", 
+gwr_sel_par<-function (formula, data = list(), coords, adapt = FALSE, kernel="gaussian", 
                        method = "cv", verbose = TRUE, longlat = NULL, RMSE = FALSE, 
                        weights, interval_dist = 100, show.error.messages = TRUE, 
                        ncores = NULL, min_dist=NULL, max_dist=NULL) 

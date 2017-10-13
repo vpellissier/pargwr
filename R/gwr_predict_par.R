@@ -10,6 +10,8 @@
 #' @param se.fit Logical. TRUE if standard errors of the fit should be assessed.
 #' @param ncores Number of cores in which the computation should be spanned
 #' @return A SDF containing predicted values
+#' @import snowfall
+#' @import sp
 #' @export
 gwr_predict_par<-function(fittedGWR=NULL, newdata, newcoords, 
 	longlat=NULL, se.fit=FALSE, ncores=NULL)
