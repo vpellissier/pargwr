@@ -32,7 +32,7 @@ gwr_par<-function(formula, data, coords, bandwidth, weights=NULL,
 		projection<-proj4string(data)
 
 		if(is.null(longlat) || !is.logical(longlat)){
-			if(!is.na(projected(data) && !is.projected(data)))
+			if(!is.na(is.projected(data) && !is.projected(data)))
 				longlat<-TRUE
 			else
 				longlat<-FALSE			
