@@ -1,7 +1,7 @@
 Package: pargwr
 Version: 0.1
-Import:
-	spgwr
+Imports:
+	spgwr,
 	snowfall
 Depends:
 	snow
