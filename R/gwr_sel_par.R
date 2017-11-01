@@ -62,11 +62,12 @@ gwr_sel_par<-function (formula, data = list(), coords, adapt = FALSE, kernel="ga
     if(is.null(min_dist)) min_dist <- difmin/1000
     if (is.null(max_dist)) max_dist <- difmin
 
-    if(is.null(ncores)){
+    if(is.null(ncores) || ncores==1){
             opt <- optimize(gwr.cv.f.par, lower=min_dist,upper=max_dist, 
                     maximum = FALSE, y = y, x = x, coords = coords, 
                     kernel = kernel, verbose = verbose, longlat = longlat, 
-                    RMSE = RMSE, weights = weights, show.error.messages = show.error.messages, 
+                    RMSE = RMSE, weights = weights, 
+                    ncores=ncores, show.error.messages = show.error.messages, 
                     tol = interval_dist*3)
     }
     
@@ -78,7 +79,8 @@ gwr_sel_par<-function (formula, data = list(), coords, adapt = FALSE, kernel="ga
     opt <- optimize(gwr.cv.f.par, lower=min_dist,upper=max_dist, 
                     maximum = FALSE, y = y, x = x, coords = coords, 
                     kernel = kernel, verbose = verbose, longlat = longlat, 
-                    RMSE = RMSE, weights = weights, show.error.messages = show.error.messages, 
+                    RMSE = RMSE, weights = weights, 
+                    ncores=ncores, show.error.messages = show.error.messages, 
                     tol = interval_dist*3)
     
     snowfall::sfStop()

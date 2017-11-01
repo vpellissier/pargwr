@@ -5,25 +5,25 @@
 gwr.cv.f.par<-function (bandwidth, y, x, coords, kernel, verbose = TRUE, longlat = FALSE,
                         RMSE = FALSE, weights, show.error.messages = TRUE, ncores)
 {
-  n <- NROW(x)
-  cv <- numeric(n)
-  options(show.error.messages = show.error.messages)
+    n <- NROW(x)
+    cv <- numeric(n)
+    options(show.error.messages = show.error.messages)
 
-  if(!is.null(ncores) && ncores>1){
-  snowfall::sfExport(list=c("bandwidth"))
-  cv<-snowfall::sfSapply(seq(n), cv.compz)
-  }
+    if(!is.null(ncores) && ncores>1){
+        snowfall::sfExport(list=c("bandwidth"))
+        cv<-snowfall::sfSapply(seq(n), cv.compz)
+    }
 
-  if(is.null(ncores)){
-    cv<-sapply(seq(n), cv.compz)
-  }
+    if(is.null(ncores) || ncores==1){
+        cv<-sapply(seq(n), cv.compz)
+    }
 
-  score <- sum(t(cv) %*% cv) #MSE
-  if (RMSE)
-    score <- sqrt(score/n) #RMSE
-  if (!show.error.messages)
-    options(show.error.messages = TRUE)
-  if (verbose)
-    cat("Bandwidth:", bandwidth, "CV score:", score, "\n")
-  score
+    score <- sum(t(cv) %*% cv) #MSE
+    if (RMSE)
+        score <- sqrt(score/n) #RMSE
+    if (!show.error.messages)
+        options(show.error.messages = TRUE)
+    if (verbose)
+        cat("Bandwidth:", bandwidth, "CV score:", score, "\n")
+    score
 }
