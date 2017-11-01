@@ -44,7 +44,7 @@ gwr_predict_par<-function(fittedGWR=NULL, newdata, newcoords,
 		newproj<-proj4string(newdata)
 
 		if(is.null(longlat) || !is.logical(longlat)){
-			if(!is.na(is.projected(newdata) && !is.projected(newdata)))
+			if(!is.na(is.projected(newdata)) && !is.projected(newdata))
 				longlat<-TRUE
 			else
 				longlat<-FALSE			

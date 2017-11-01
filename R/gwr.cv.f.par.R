@@ -11,11 +11,15 @@ gwr.cv.f.par<-function (bandwidth, y, x, coords, kernel, verbose = TRUE, longlat
 
     if(!is.null(ncores) && ncores>1){
         snowfall::sfExport(list=c("bandwidth"))
-        cv<-snowfall::sfSapply(seq(n), cv.compz)
+        cv<-snowfall::sfSapply(seq(n), function(m) cv.compz(m, x=x, y=y, coords=coords, 
+                                                            longlat=longlat, kernel=kernel, 
+                                                            bandwidth=bandwidth, weights=weights))
     }
 
     if(is.null(ncores) || ncores==1){
-        cv<-sapply(seq(n), cv.compz)
+        cv<-sapply(seq(n), function(m) cv.compz(m, x=x, y=y, coords=coords, 
+                                                longlat=longlat, kernel=kernel, 
+                                                bandwidth=bandwidth, weights=weights))
     }
 
     score <- sum(t(cv) %*% cv) #MSE

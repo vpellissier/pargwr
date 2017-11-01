@@ -16,44 +16,53 @@
 #' @export
 gwr_sel_par<-function (formula, data = list(), coords, adapt = FALSE, kernel="gaussian", 
                        method = "cv", verbose = TRUE, longlat = NULL, RMSE = FALSE, 
-                       weights, interval_dist = 100, show.error.messages = TRUE, 
+                       weights=NULL, interval_dist = 100, show.error.messages = TRUE, 
                        ncores = NULL, min_dist=NULL, max_dist=NULL) 
 {
-    if (!is.logical(adapt)) 
-        stop("adapt must be logical")
-    if (is(data, "Spatial")) {
-        if (!missing(coords)) 
-            warning("data is Spatial* object, ignoring coords argument")
-        coords <- coordinates(data)
-        if (is.null(longlat) || !is.logical(longlat)) {
-            if (!is.na(is.projected(data)) && !is.projected(data)) {
-                longlat <- TRUE
-            }
-            else {
-                longlat <- FALSE
-            }
+    if(missing(formula)) 
+        stop("Formula is missing")
+
+    projection<-NULL
+    
+    if(is(data, "Spatial")){
+        if(!missing(coords))
+            warning("Coordinates are taken directly from data")
+        coords<-coordinates(data)
+        projection<-proj4string(data)
+        
+        if(is.null(longlat) || !is.logical(longlat)){
+            if(!is.na(is.projected(data)) && !is.projected(data))
+                longlat<-TRUE
+            else
+                longlat<-FALSE			
         }
-        data <- as(data, "data.frame")
+        
+        data<-data@data
     }
-    if (is.null(longlat) || !is.logical(longlat)) 
-        longlat <- FALSE
-    if (missing(coords)) 
-        stop("Observation coordinates have to be given")
-    mf <- match.call(expand.dots = FALSE)
-    m <- match(c("formula", "data", "weights"), names(mf), 0)
-    mf <- mf[c(1, m)]
-    mf$drop.unused.levels <- TRUE
-    mf[[1]] <- as.name("model.frame")
-    mf <- eval(mf, parent.frame())
-    mt <- attr(mf, "terms")
-    dp.n <- length(model.extract(mf, "response"))
-    weights <- as.vector(model.extract(mf, "weights"))
     
-    if (is.null(weights)) 
-        weights <- rep(as.numeric(1), dp.n)
+    if (missing(coords))
+        stop("Please provide a coordinates matrix")
     
-    y <- model.extract(mf, "response")
-    x <- model.matrix(mt, mf)   
+    if(is.null(longlat) || !is.logical(longlat))
+        longlat<-FALSE
+    
+    y.var<-all.vars(formula)[1]
+    x.vars<-all.vars(formula)[-1]
+    n.vars<-length(x.vars)
+    
+    y<-as.vector(data[,y.var])
+    n.sample<-length(y)
+    
+    x<-data[,x.vars, drop=FALSE]
+    x<-cbind(rep(1, n.sample), x)
+    colnames(x)[1]<-"(Intercept)"
+    x<-as.matrix(x)
+    
+    if(!is.null(weights) && !is.numeric(weights))
+        stop("Weights should be a numeric vector")
+    
+    if(is.null(weights))
+        weights<-rep(1, n.sample)
     
     bbox <- cbind(range(coords[, 1]), range(coords[, 2]))
     difmin <- spDistsN1(bbox, bbox[2, ], longlat)[1]
