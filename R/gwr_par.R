@@ -111,6 +111,7 @@ gwr_par<-function(formula, data, coords, bandwidth, weights=NULL,
     effective.df<-n.sample - 2 * diaghatmat + diagcrossprod
     crossprod2<-t(diag(n.sample) - hatmat) %*% (diag(n.sample) - hatmat)
     rss<-c(t(y) %*% crossprod2 %*% y)
+    tss<-c(cov.wt(matrix(y, ncol = 1), wt = weights, method = "ML")$cov * n.sample)
     #delta1<-sum(diag(crossprod2))
     #sigma2<-rss/delta1
     #odelta2<-sum(diag(crossprod2)^2)
@@ -121,7 +122,7 @@ gwr_par<-function(formula, data, coords, bandwidth, weights=NULL,
     AIC<-2 * n.sample * log(sqrt(sigma2.b)) + n.sample * log(2 * 
         pi) + n.sample + diaghatmat
 
-    diagnostics<-list(AIC=AIC, AICc=AICc, RSS=rss, EDF=effective.df)
+    diagnostics<-list(AIC=AIC, AICc=AICc, RSS=rss, TSS=tss, EDF=effective.df)
     }
 
     else

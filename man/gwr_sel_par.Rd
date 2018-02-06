@@ -6,8 +6,9 @@
 \usage{
 gwr_sel_par(formula, data = list(), coords, adapt = FALSE,
   kernel = "gaussian", method = "cv", verbose = TRUE, longlat = NULL,
-  RMSE = FALSE, weights, interval_dist = 100, show.error.messages = TRUE,
-  ncores = NULL, min_dist = NULL, max_dist = NULL)
+  RMSE = FALSE, weights = NULL, interval_dist = 100,
+  show.error.messages = TRUE, ncores = NULL, min_dist = NULL,
+  max_dist = NULL)
 }
 \arguments{
 \item{formula}{Formula of the GWR}
