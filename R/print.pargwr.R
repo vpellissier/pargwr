@@ -24,12 +24,12 @@ print.pargwr<-function(x,...)
     if(any(is.na(gwr_coeffs)))
         warning("NAs dropped in GWR local coefficients!")
     
-    if(is.null(gwr2$diagnostic.metrics))
+    if(is.null(x$diagnostic.metrics))
         gwr_param<-c(apply(gwr_coeffs, 2, mean, na.rm=T), 
                      apply(gwr_coeffs, 2, sd, na.rm=T),
                      NA, NA, NA, NA, NA, NA)
     
-    if(!is.null(gwr2$diagnostic.metrics))
+    if(!is.null(x$diagnostic.metrics))
         gwr_param<-c(apply(gwr_coeffs, 2, mean, na.rm=T), 
                      apply(gwr_coeffs, 2, sd, na.rm=T),
                      x$diagnostic.metrics$EDF, n.sample-x$diagnostic.metrics$EDF,
