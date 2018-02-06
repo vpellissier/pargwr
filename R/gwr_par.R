@@ -80,9 +80,10 @@ gwr_par<-function(formula, data, coords, bandwidth, weights=NULL,
     # Running linear models sequentially if ncores==NULL
     if(is.null(ncores))
         param.local.lm<-lapply(seq(n.sample), 
-        	function(cell) gwr.internal(x=x, y=y, cell=cell, coords=coords, 
-    			bandwidth=bandwidth, weights=weights,kernel=kernel, 
-    			longlat=longlat, adapt=adapt, se.fit=se.fit, diagnostic=diagnostic))
+        	function(cell) gwr.internal(x=x, y=y, cell=cell, coords=coords,
+        	                            bandwidth=bandwidth, weights=weights,kernel=kernel,
+        	                            longlat=longlat, adapt=adapt, se.fit=se.fit, 
+        	                            diagnostic=diagnostic))
 
     # Running linear models sequentially if ncores>2
     if(!is.null(ncores) && ncores>1){
@@ -92,8 +93,9 @@ gwr_par<-function(formula, data, coords, bandwidth, weights=NULL,
     	snowfall::sfLibrary(sp)
     	param.local.lm<-sfLapply(seq(n.sample), 
     		function(cell) gwr.internal(x=x, y=y, cell=cell, coords=coords, 
-    			bandwidth=bandwidth, weights=weights,kernel=kernel, 
-    			longlat=longlat, adapt=adapt, se.fit=se.fit, diagnostic=diagnostic))
+    		                            bandwidth=bandwidth, weights=weights,kernel=kernel,
+    		                            longlat=longlat, adapt=adapt, se.fit=se.fit, 
+    		                            diagnostic=diagnostic))
     	snowfall::sfStop()
     }
 
@@ -119,28 +121,27 @@ gwr_par<-function(formula, data, coords, bandwidth, weights=NULL,
     sigma2.b<-rss/n.sample
     AICc<-2 * n.sample * log(sqrt(sigma2.b)) + n.sample * 
     	log(2 * pi) + (n.sample * ((n.sample + diaghatmat)/(n.sample - 2 - diaghatmat)))
-    AIC<-2 * n.sample * log(sqrt(sigma2.b)) + n.sample * log(2 * 
-        pi) + n.sample + diaghatmat
+    AIC<-2 * n.sample * log(sqrt(sigma2.b)) + n.sample * log(2 * pi) + n.sample + diaghatmat
 
     diagnostics<-list(AIC=AIC, AICc=AICc, RSS=rss, TSS=tss, EDF=effective.df)
     }
 
     else
         diagnostics<-NULL
-
-    local.R2<-sapply(seq(n.sample), function(cell) local.R2(y, cell, coords, 
-    													df[,"yhat"], longlat, adapt,
-    													weights, kernel, bandwidth))
+        
+    local.R2<-sapply(seq(n.sample), function(cell) local.R2(y, cell, coords,
+                                                            df[,"yhat"], longlat, adapt,
+                                                            weights, kernel, bandwidth))
     df<-cbind(df, local.R2)
     
     if(!is.null(projection))
         sdf<-SpatialPointsDataFrame(coords=coords, data=as.data.frame(df),
-    		proj4string=CRS(projection))
+                                    proj4string=CRS(projection))
     else
         sdf<-SpatialPointsDataFrame(coords=coords, data=as.data.frame(df))      
 
    	results.list<-list(sdf=sdf, call=gwr.call, global.lm=lm.global, bandwidth=bandwidth,
-    	kernel=kernel, diagnostic.metrics=diagnostics)
+   	                   kernel=kernel, diagnostic.metrics=diagnostics)
     class(results.list)<-"pargwr"
     invisible(results.list)
 }
@@ -152,7 +153,7 @@ print.pargwr<-function(x,...)
     
     cat("Call:\n")
     print(x$call)
-    cat("Kernel:", x$kernel)
+    cat("Kernel:", x$kernel, "\n")
     cat("Bandwidth: ", x$bandwidth, "\n")
     
     coef_names<-c("Intercept", all.vars(formula(x$call))[-1])
