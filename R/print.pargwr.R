@@ -45,6 +45,6 @@ print.pargwr<-function(x,...)
                          "RSS", "(Quasi) R2")
     rownames(printDF)<-c("Global model", "GWR")
     
-    printCoefmat(print(DF))
+    printCoefmat(printDF)
     invisible(x)
 }
