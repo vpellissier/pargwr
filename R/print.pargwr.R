@@ -1,6 +1,6 @@
 # Print function used to display basics informations when a pargwr object is called
 
-function(x,...)
+print.pargwr<-function(x,...)
 {
     if(class(x)!="pargwr")
         stop("Object class is not pargwr")
