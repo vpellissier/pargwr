@@ -146,6 +146,7 @@ gwr_par<-function(formula, data, coords, bandwidth, weights=NULL,
     invisible(results.list)
 }
 
+#' @export
 print.pargwr<-function(x,...)
 {
     if(class(x)!="pargwr")
