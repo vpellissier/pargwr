@@ -6,7 +6,7 @@
 \usage{
 gwr_sel_par(formula, data = list(), coords, adaptative = FALSE,
   kernel = "gaussian", method = "cv", verbose = TRUE, longlat = NULL,
-  RMSE = FALSE, weights = NULL, interval_dist = 100,
+  RMSE = FALSE, weights = NULL, interval_dist = .Machine$double.eps^0.25,
   show.error.messages = TRUE, ncores = NULL, min_dist = NULL,
   max_dist = NULL)
 }

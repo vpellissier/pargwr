@@ -16,8 +16,8 @@
 #' @export
 gwr_sel_par<-function (formula, data = list(), coords, adaptative = FALSE, kernel="gaussian", 
                        method = "cv", verbose = TRUE, longlat = NULL, RMSE = FALSE, 
-                       weights=NULL, interval_dist = 100, show.error.messages = TRUE, 
-                       ncores = NULL, min_dist=NULL, max_dist=NULL) 
+                       weights=NULL, interval_dist = .Machine$double.eps^0.25, 
+                       show.error.messages = TRUE, ncores = NULL, min_dist=NULL, max_dist=NULL) 
 {
     if(missing(formula)) 
         stop("Formula is missing")

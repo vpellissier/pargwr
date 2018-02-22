@@ -8,8 +8,8 @@ gwr.cv.f.par<-function (bandwidth, y, x, coords, adaptative, kernel,
 {
     n <- NROW(x)
     cv <- numeric(n)
-    if(adaptative)
-        bandwidth <- round(bandwidth, 0)
+    # if(adaptative)
+    #     bandwidth <- round(bandwidth, 0)
     
     options(show.error.messages = show.error.messages)
 
