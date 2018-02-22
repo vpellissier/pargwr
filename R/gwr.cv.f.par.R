@@ -4,7 +4,7 @@
 
 gwr.cv.f.par<-function (bandwidth, y, x, coords, adaptative, kernel, 
                         verbose = TRUE, longlat = FALSE, RMSE = FALSE, 
-                        weights, show.error.messages = TRUE, ncores)
+                        weights, show.error.messages = TRUE, ncores=NULL)
 {
     n <- NROW(x)
     cv <- numeric(n)
