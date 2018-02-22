@@ -1,7 +1,7 @@
 # function used to compute the CV score (leave-one-out approach). For each cell, runs one weigthed GLM per cell, 
 # without including the focal cell, and return observed minus fitted for the focal cell.
 
-cv.compz<-function(i, x, y, coords, adapatative, longlat,
+cv.compz<-function(i, x, y, coords, adaptative, longlat,
                    kernel, bandwidth, weights)
 {
   xx <- x[i, ]

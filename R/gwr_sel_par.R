@@ -65,7 +65,6 @@ gwr_sel_par<-function (formula, data = list(), coords, adaptative = FALSE, kerne
         weights<-rep(1, n.sample)
             
     if (!adaptative){
-        
         bbox <- cbind(range(coords[, 1]), range(coords[, 2]))
         difmin <- spDistsN1(bbox, bbox[2, ], longlat)[1]
         if (any(!is.finite(difmin))) 
