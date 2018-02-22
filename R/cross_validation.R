@@ -1,13 +1,18 @@
 # function used to compute the CV score (leave-one-out approach). For each cell, runs one weigthed GLM per cell, 
 # without including the focal cell, and return observed minus fitted for the focal cell.
 
-cv.compz<-function(i, x, y, coords, longlat,
+cv.compz<-function(i, x, y, coords, adapatative, longlat,
                    kernel, bandwidth, weights)
 {
   xx <- x[i, ]
   dxs <- spDistsN1(coords, coords[i, ], longlat = longlat)
   if (!is.finite(dxs[i]))
     dxs[i] <- .Machine$double.xmax/2
+  
+  # replaces number of neigbhors by the maximum distance between i 
+  # and the k nearest-neigbhors
+  if(adaptative)
+      bandwidth <- max(sort(dxs)[2:bandwidth+1])    
   
   if(kernel=="gaussian")
     w.i<-weight.gaussian(dxs, bandwidth)

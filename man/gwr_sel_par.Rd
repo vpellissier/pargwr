@@ -4,7 +4,7 @@
 \alias{gwr_sel_par}
 \title{GWR bandwidth selection}
 \usage{
-gwr_sel_par(formula, data = list(), coords, adapt = FALSE,
+gwr_sel_par(formula, data = list(), coords, adaptative = FALSE,
   kernel = "gaussian", method = "cv", verbose = TRUE, longlat = NULL,
   RMSE = FALSE, weights = NULL, interval_dist = 100,
   show.error.messages = TRUE, ncores = NULL, min_dist = NULL,
@@ -17,7 +17,7 @@ gwr_sel_par(formula, data = list(), coords, adapt = FALSE,
 
 \item{coords}{A two-columns matrix with the coordinates as X-Y if data is a data.frame}
 
-\item{adapt}{Logical. TRUE if Adaptative bandwith, FALSE if fixed}
+\item{adaptative}{Logical. TRUE if adaptative bandwith (k nearest neighbors), FALSE if fixed}
 
 \item{kernel}{Character string. Weight kernel. Either "gaussian" or "bisquare"}
 
@@ -25,11 +25,11 @@ gwr_sel_par(formula, data = list(), coords, adapt = FALSE,
 
 \item{longlat}{TRUE if coordinates are longitude-latitude in decimal degrees, in which case, distances are measured in kilometers}
 
-\item{interval_dist}{Minimum distance between two separate runs of the optimize}
+\item{interval_dist}{Minimum distance between two separate runs of the optimizer (meters if adaptative=F; number of neibhbors if adaptative=T).}
 
-\item{min_dist}{Minimum bandwith}
+\item{min_dist}{Minimum bandwith (meters if adaptative=F; number of neibhbors if adaptative=T).}
 
-\item{max_dist}{Maximum bandwith}
+\item{max_dist}{Maximum bandwith (meters if adaptative=F; number of neibhbors if adaptative=T)}
 }
 \value{
 A bandwidth
