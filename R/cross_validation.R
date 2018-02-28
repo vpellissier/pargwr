@@ -12,7 +12,7 @@ cv.compz<-function(i, x, y, coords, adaptative, longlat,
   # replaces number of neigbhors by the maximum distance between i 
   # and the k nearest-neigbhors
   if(adaptative)
-      bandwidth <- max(sort(dxs)[2:bandwidth+1])    
+      bandwidth <- max(sort(dxs)[2:bandwidth+1])  
   
   if(kernel=="gaussian")
     w.i<-weight.gaussian(dxs, bandwidth)
