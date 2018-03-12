@@ -71,28 +71,29 @@ gwr_sel_par<-function (formula, data = list(), coords, adapt = FALSE, kernel="ga
     if(is.null(min_dist)) min_dist <- difmin/1000
     if (is.null(max_dist)) max_dist <- difmin
 
-    if(is.null(ncores) || ncores==1){
-            opt <- optimize(gwr.cv.f.par, lower=min_dist,upper=max_dist, 
-                    maximum = FALSE, y = y, x = x, coords = coords, 
-                    kernel = kernel, verbose = verbose, longlat = longlat, 
-                    RMSE = RMSE, weights = weights, 
-                    ncores=ncores, show.error.messages = show.error.messages, 
-                    tol = interval_dist*3)
-    }
+    # if(is.null(ncores) || ncores==1){
+    #         opt <- optimize(gwr.cv.f.par, lower=min_dist,upper=max_dist, 
+    #                 maximum = FALSE, y = y, x = x, coords = coords, 
+    #                 kernel = kernel, verbose = verbose, longlat = longlat, 
+    #                 RMSE = RMSE, weights = weights, 
+    #                 ncores=ncores, show.error.messages = show.error.messages, 
+    #                 tol = interval_dist*3)
+    # }
     
     if(!is.null(ncores) && ncores>1){    
-    snowfall::sfInit(parallel=TRUE, cpus=ncores)
-    snowfall::sfExport(list=c("coords", "longlat", "x", "y", "weights", "kernel"))
-    snowfall::sfLibrary(sp)
+    cl1<-snow::makeCluster(ncores)
+    
+    }
     
     opt <- optimize(gwr.cv.f.par, lower=min_dist,upper=max_dist, 
                     maximum = FALSE, y = y, x = x, coords = coords, 
                     kernel = kernel, verbose = verbose, longlat = longlat, 
-                    RMSE = RMSE, weights = weights, 
+                    RMSE = RMSE, weights = weights,
                     ncores=ncores, show.error.messages = show.error.messages, 
-                    tol = interval_dist*3)
+                    tol = interval_dist*3, cluster=cl1)
     
-    snowfall::sfStop()
+    if(!is.null(ncores) && ncores>1){
+    parallel::stopCluster(cl)
     }
 
     res<-opt$minimum

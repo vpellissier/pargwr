@@ -13,8 +13,8 @@
 #' @param ncores Number of cores in which the computation should be spanned
 #' @param diagnostic Logical. If TRUE, the following metrics are displayed: AIC, AICc, RSS, Effective numbers of parameters and of degrees of freedom.
 #' @return A fitted GWR
-#' @import snowfall
-#' @importFrom snow setDefaultClusterOptions
+#' @import snow
+#' @import bigmemory
 #' @import sp
 #' @export
 gwr_par<-function(formula, data, coords, bandwidth, weights=NULL,
@@ -146,6 +146,9 @@ gwr_par<-function(formula, data, coords, bandwidth, weights=NULL,
     invisible(results.list)
 }
 
+#' 'Print method for pargwr objects'
+#'
+#' @export
 print.pargwr<-function(x,...)
 {
     if(class(x)!="pargwr")
