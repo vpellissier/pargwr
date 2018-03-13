@@ -6,7 +6,7 @@
 \usage{
 gwr_par(formula, data, coords, bandwidth, weights = NULL,
   kernel = "gaussian", longlat = NULL, se.fit = FALSE,
-  diagnostic = FALSE, adapt = F, ncores = NULL)
+  diagnostic = FALSE, collinearity = FALSE, adapt = F, ncores = NULL)
 }
 \arguments{
 \item{formula}{Formula of the GWR}
@@ -22,6 +22,8 @@ gwr_par(formula, data, coords, bandwidth, weights = NULL,
 \item{se.fit}{Logical. TRUE if standard errors of the fit should be assessed.}
 
 \item{diagnostic}{Logical. If TRUE, the following metrics are displayed: AIC, AICc, RSS, Effective numbers of parameters and of degrees of freedom.}
+
+\item{collinearity}{Logical. If TRUE, metrics of local collinearity (local correlation and local VIF are computed)}
 
 \item{adapt}{Logical. TRUE if Adaptative bandwith, FALSE if fixed}
 

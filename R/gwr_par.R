@@ -12,20 +12,23 @@
 #' @param se.fit Logical. TRUE if standard errors of the fit should be assessed.
 #' @param ncores Number of cores in which the computation should be spanned
 #' @param diagnostic Logical. If TRUE, the following metrics are displayed: AIC, AICc, RSS, Effective numbers of parameters and of degrees of freedom.
+#' @param collinearity Logical. If TRUE, metrics of local collinearity (local correlation and local VIF are computed)
 #' @return A fitted GWR
 #' @import snowfall
+#' @import reshape2
 #' @importFrom snow setDefaultClusterOptions
 #' @import sp
 #' @export
 gwr_par<-function(formula, data, coords, bandwidth, weights=NULL,
-	kernel="gaussian", longlat=NULL, se.fit=FALSE, diagnostic=FALSE, adapt=F, ncores=NULL)
+	kernel="gaussian", longlat=NULL, se.fit=FALSE, diagnostic=FALSE, 
+	collinearity=FALSE, adapt=F, ncores=NULL)
 {
 	if(missing(formula)) 
 		stop("Formula is missing")
 	
 	if (missing(bandwidth))
 		stop("Please provide a bandwidth. Can be computed using gwr.sel.par()")
-
+    
     gwr.call<-match.call()
     projection<-NULL
 
@@ -63,6 +66,11 @@ gwr_par<-function(formula, data, coords, bandwidth, weights=NULL,
     colnames(x)[1]<-"(Intercept)"
     x<-as.matrix(x)
     
+    if(collinearity && ncol(x)<=2){
+        warning("Number of variables < 2. Collinearity will not be computed")
+        collinearity<-FALSE
+    }
+    
 	if(!is.null(weights) && !is.numeric(weights))
 		stop("Weights should be a numeric vector")
 
@@ -83,7 +91,7 @@ gwr_par<-function(formula, data, coords, bandwidth, weights=NULL,
         	function(cell) gwr.internal(x=x, y=y, cell=cell, coords=coords,
         	                            bandwidth=bandwidth, weights=weights,kernel=kernel,
         	                            longlat=longlat, adapt=adapt, se.fit=se.fit, 
-        	                            diagnostic=diagnostic))
+        	                            diagnostic=diagnostic, collinearity=collinearity))
 
     # Running linear models sequentially if ncores>2
     if(!is.null(ncores) && ncores>1){
@@ -95,7 +103,7 @@ gwr_par<-function(formula, data, coords, bandwidth, weights=NULL,
     		function(cell) gwr.internal(x=x, y=y, cell=cell, coords=coords, 
     		                            bandwidth=bandwidth, weights=weights,kernel=kernel,
     		                            longlat=longlat, adapt=adapt, se.fit=se.fit, 
-    		                            diagnostic=diagnostic))
+    		                            diagnostic=diagnostic, collinearity=collinearity))
     	snowfall::sfStop()
     }
 
@@ -134,18 +142,45 @@ gwr_par<-function(formula, data, coords, bandwidth, weights=NULL,
                                                             weights, kernel, bandwidth))
     df<-cbind(df, local.R2)
     
+    # turning the df into a sdf projecting the final dataframe
     if(!is.null(projection))
         sdf<-SpatialPointsDataFrame(coords=coords, data=as.data.frame(df),
                                     proj4string=CRS(projection))
+    
     else
         sdf<-SpatialPointsDataFrame(coords=coords, data=as.data.frame(df))      
 
-   	results.list<-list(sdf=sdf, call=gwr.call, global.lm=lm.global, bandwidth=bandwidth,
-   	                   kernel=kernel, diagnostic.metrics=diagnostics)
+    # computing collinearity metrics
+    if(collinearity){
+        list.cor.df<-lapply(param.local.lm, function(j) j[["loc.cor.i"]])
+        list.vif.df<-lapply(param.local.lm, function(j) j[["vif.i"]])
+        
+        names.corr<-combn(colnames(x)[-1], 2, function(x) paste0("corr_", paste(x, collapse=".")))
+        names.vif<-paste0("vif_", colnames(x)[-1])
+        
+        collin.df<-cbind(do.call(rbind, list.cor.df), do.call(rbind, list.vif.df))
+        colnames(collin.df)<-c(names.corr, names.vif)
+        
+        rm(list=c("list.cor.df", "list.vif.df"))
+        
+        if(!is.null(projection))
+            collin.sdf<-SpatialPointsDataFrame(coords=coords, data=as.data.frame(collin.df),
+                                        proj4string=CRS(projection))
+        else
+            collin.sdf<-SpatialPointsDataFrame(coords=coords, data=as.data.frame(collin.df))
+    }
+    
+    else
+        collin.sdf<-NA
+    
+    results.list<-list(sdf=sdf, call=gwr.call, global.lm=lm.global, bandwidth=bandwidth,
+                           kernel=kernel, diagnostic.metrics=diagnostics, collinearity=collin.sdf)
+        
     class(results.list)<-"pargwr"
     invisible(results.list)
 }
 
+#'@export
 print.pargwr<-function(x,...)
 {
     if(class(x)!="pargwr")

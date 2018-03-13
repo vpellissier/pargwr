@@ -1,7 +1,7 @@
 # Internal function. Computes the local LM for a given point.
 # For internal use only
 gwr.internal<-function(x, y, cell, coords, bandwidth, weights=NULL,
-    kernel, longlat, adapt, se.fit, diagnostic)
+    kernel, longlat, adapt, se.fit, diagnostic, collinearity)
 {
     x.vars<-colnames(x)
     i<-cell
@@ -35,6 +35,17 @@ gwr.internal<-function(x, y, cell, coords, bandwidth, weights=NULL,
     coeffs.i<-lm.i$coefficients
     pred.i<-sum(x[i,] * coeffs.i)
     gwr.e.i<-lm.i$residuals[i]
+    
+    if(collinearity){
+        if(ncol(x)<=2)
+            break
+        cor.mat.i<-cov.wt(x[,c(2:ncol(x))], wt=weights.i, cor=T)$cor
+        loc.cor.i<-subset(reshape2::melt(upper.tri(cor.mat.i)*cor.mat.i), value!=0)$value
+        vif.i<-diag(solve(cor.mat.i))
+    }
+    
+    else
+        loc.cor.i<-vif.i<-NA
 
     if(diagnostic==TRUE || se.fit==TRUE){
         if(lm.i$rank!=ncol(x))
@@ -55,5 +66,6 @@ gwr.internal<-function(x, y, cell, coords, bandwidth, weights=NULL,
         lhat.i<-NA
     }
     
-    return(list(df.i=df.i, lhat.i=lhat.i))
+    return(list(df.i=df.i, lhat.i=lhat.i, 
+                loc.cor.i=loc.cor.i, vif.i=vif.i))
 }
