@@ -37,6 +37,6 @@ weight.gaussian<-function(dist, bandwidth)
 #' @export
 weight.boxcar<-function(dist, bandwidth)
 {
-  weights<-ifelse(dist<bandwidth, 1, 0)
+  weights<-ifelse(abs(dist)<bandwidth, 1, 0)
   return(weights)
 }
