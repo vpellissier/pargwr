@@ -77,7 +77,7 @@ gwr_predict_par<-function(fittedGWR=NULL, newdata, newcoords,
     # Running linear models sequentially if ncores>2
     if(!is.null(ncores) && ncores>1){
     	snowfall::sfInit(cpus=ncores, parallel=TRUE)
-    	snowfall::sfExport(list=c("x", "y", "coords", "cell", "newcoords",
+    	snowfall::sfExport(list=c("x", "y", "coords", "newcoords",
     			"newdata", "bandwidth", "weights", "yhat",
     			"kernel", "longlat", "adapt", "se.fit"))
     	snowfall::sfLibrary(sp)
